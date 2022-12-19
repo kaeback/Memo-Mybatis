@@ -3,5 +3,155 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.MemoMapper">
+    <!--  회원정보 등록  -->
+    <insert id="saveMember">
+        <selectKey keyProperty="member_id" resultType="long" order="BEFORE">
+            select seq_memo.nextval from dual
+        </selectKey>
+        insert into member (
+            member_id,
+            email,
+            password,
+            name
+        ) values (
+            #{member_id},
+            #{email},
+            #{password},
+            #{name}
+        )
+    </insert>
 
+    <!--  로그인  -->
+    <select id="findMember" resultType="member">
+        select * from member where member_id = #{member_id}
+    </select>
+
+    <!--  메모 저장  -->
+    <insert id="saveMemo">
+        <selectKey keyProperty="memo_id" resultType="long" order="BEFORE">
+            select seq_memo.nextval from dual
+        </selectKey>
+        insert into memo (
+            memo_id,
+            title,
+            contents
+        ) values (
+            #{memo_id},
+            #{title},
+            #{contents}
+        )
+    </insert>
+
+    <!--  보낸 메모 저장  -->
+    <insert id="saveSendMemoRecord">
+        <selectKey keyProperty="send_id" resultType="long" order="BEFORE">
+            select seq_memo.nextval from dual
+        </selectKey>
+        insert into send_memo_record (
+            send_id,
+            memo_id,
+            sender_id,
+            receiver_id,
+        ) values (
+            #{sender_id},
+            #{memo_id},
+            #{sender_id},
+            #{receiver_id}
+        )
+    </insert>
+
+    <!--  받은 메모 저장  -->
+    <insert id="saveReceiveMemoRecord">
+        <selectKey keyProperty="receive_id" resultType="long" order="BEFORE">
+            select seq_memo.nextval from dual
+        </selectKey>
+        insert into send_memo_record (
+            receive_id,
+            memo_id,
+            sender_id,
+            receiver_id,
+        ) values (
+            #{receive_id},
+            #{memo_id},
+            #{sender_id},
+            #{receiver_id}
+        )
+    </insert>
+
+    <!--  보낸 메모 읽기  -->
+    <select id="findSendMemoRecordById" resultType="map">
+        select
+            m.memo_id,
+            m.title,
+            m.contents,
+            s.send_id,
+            s.sender_id,
+            s.receiver_id,
+            s.send_time
+        from
+            memo m join
+            send_memo_record s
+            on m.memo_id = s.memo_id
+        where
+            memo_id = #{memo_id}
+    </select>
+
+    <!--  받은 메모 읽기  -->
+    <select id="findReceiveMemoRecordById" resultType="map">
+        select
+            m.memo_id,
+            m.title,
+            m.contents,
+            r.send_id,
+            r.sender_id,
+            r.receiver_id,
+            r.is_read
+        from
+            memo m join
+            receive_memo_record r
+            on m.memo_id = r.memo_id
+        where
+            memo_id = #{memo_id}
+    </select>
+
+    <!--  보낸 메모 전체목록(검색)  -->
+    <select id="findSendMemoRecord" resultType="map">
+        select
+            m.memo_id,
+            m.title,
+            m.contents,
+            s.send_id,
+            s.sender_id,
+            s.receiver_id,
+            s.send_time
+        from
+            memo m join
+            send_memo_record s
+            on m.memo_id = s.memo_id
+        where
+            m.title like '%' || #{title} || '%'
+    </select>
+
+    <!--  받은 메모 전체목록(검색  -->
+    <select id="findReceiveMemoRecord" resultType="map">
+        select
+            m.memo_id,
+            m.title,
+            m.contents,
+            r.send_id,
+            r.sender_id,
+            r.receiver_id,
+            r.is_read
+        from
+            memo m join
+            receive_memo_record r
+            on m.memo_id = r.memo_id
+        where
+            m.title like '%' || #{title} || '%'
+    </select>
+
+    <!--  받은 메모 삭제  -->
+    <delete id="removeReceiveMemoRecordById">
+        delete from receive_memo_record where receive_id = #{receive_id}
+    </delete>
 </mapper>
