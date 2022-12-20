@@ -4,9 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b035d081-500c-48c3-ab0f-fdd28c09b8dd" name="변경" comment="프로젝트 수정">
+    <list default="true" id="b035d081-500c-48c3-ab0f-fdd28c09b8dd" name="변경" comment="12/19 코드 추가">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/dao/MemoDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/manager/MemoManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/dao/MemoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/dao/MemoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Member.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Member.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Memo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Memo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/memoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/memoMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +62,8 @@
       <updated>1671021292863</updated>
       <workItem from="1671021294478" duration="1518000" />
       <workItem from="1671101632580" duration="5458000" />
-      <workItem from="1671447892213" duration="2751000" />
+      <workItem from="1671447892213" duration="2789000" />
+      <workItem from="1671537493799" duration="5073000" />
     </task>
     <task id="LOCAL-00001" summary="프로젝트 생성">
       <created>1671022795424</created>
@@ -74,7 +79,14 @@
       <option name="project" value="LOCAL" />
       <updated>1671107978958</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="12/19 코드 추가">
+      <created>1671450683233</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1671450683233</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +106,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="프로젝트 생성" />
     <MESSAGE value="프로젝트 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="프로젝트 수정" />
+    <MESSAGE value="12/19 코드 추가" />
+    <option name="LAST_COMMIT_MESSAGE" value="12/19 코드 추가" />
   </component>
 </project>

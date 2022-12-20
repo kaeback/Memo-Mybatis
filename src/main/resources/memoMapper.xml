@@ -19,11 +19,18 @@
             #{password},
             #{name}
         )
+        <selectKey keyProperty="member_id" resultType="long" order="AFTER">
+            select seq_memo.currval from dual
+        </selectKey>
     </insert>
+
+    <select id="findMemberByEmail" resultType="member">
+        select * from member where email = #{email}
+    </select>
 
     <!--  로그인  -->
     <select id="findMember" resultType="member">
-        select * from member where member_id = #{member_id}
+        select * from member where member_id = #{member_id} and password = #{password}
     </select>
 
     <!--  메모 저장  -->
@@ -79,7 +86,7 @@
     </insert>
 
     <!--  보낸 메모 읽기  -->
-    <select id="findSendMemoRecordById" resultType="map">
+    <select id="findSendMemoById" resultType="map">
         select
             m.memo_id,
             m.title,
@@ -97,7 +104,7 @@
     </select>
 
     <!--  받은 메모 읽기  -->
-    <select id="findReceiveMemoRecordById" resultType="map">
+    <select id="findReceiveMemoById" resultType="map">
         select
             m.memo_id,
             m.title,
@@ -115,7 +122,7 @@
     </select>
 
     <!--  보낸 메모 전체목록(검색)  -->
-    <select id="findSendMemoRecord" resultType="map">
+    <select id="findSendMemos" resultType="map">
         select
             m.memo_id,
             m.title,
@@ -133,7 +140,7 @@
     </select>
 
     <!--  받은 메모 전체목록(검색  -->
-    <select id="findReceiveMemoRecord" resultType="map">
+    <select id="findReceiveMemos" resultType="map">
         select
             m.memo_id,
             m.title,
