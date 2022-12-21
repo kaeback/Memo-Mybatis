@@ -8,9 +8,13 @@ public class Member {
 
     public Member() {}
 
-    public Member(String email, String password, String name) {
+    public Member(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public Member(String email, String password, String name) {
+        this(email, password);
         this.name = name;
     }
 

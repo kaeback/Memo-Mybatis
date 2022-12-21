@@ -18,27 +18,27 @@ public interface MemoMapper {
     // 로그인
     Member findMember(Member member);
 
-    // 메모 저장
+    // 쪽지 저장
     int saveMemo(Memo memo);
 
-    // 보낸 메모 저장
+    // 보낸 쪽지 저장
     int saveSendMemoRecord(SendMemoRecord sendMemoRecord);
 
-    // 받은 메모 저장
+    // 받은 쪽지 저장
     int saveReceiveMemoRecord(ReceiveMemoRecord receiveMemoRecord);
 
-    // 보낸 메모 읽기
-    Map<String, Object> findSendMemoById(long send_id);
-
-    // 받은 메모 읽기
+    // 받은 쪽지 읽기
     Map<String, Object> findReceiveMemoById(long receive_id);
 
-    // 보낸 메모 전체목록(검색)
-    List<Map<String, Object>> findSendMemos(String title);
+    // 보낸 쪽지 전체목록
+    List<Map<String, Object>> findSendMemos(long sender_id);
 
-    // 받은 메모 전체목록(검색)
-    List<Map<String, Object>> findReceiveMemos(String title);
+    // 받은 쪽지 전체목록
+    List<Map<String, Object>> findReceiveMemos(long receiver_id);
 
-    // 받은 메모 삭제
+    // 받은 쪽지 확인여부 수정
+    int updateReceiveMemo(long receive_id);
+
+    // 받은 쪽지 삭제
     int removeReceiveMemoRecordById(long receive_id);
 }

@@ -21,7 +21,7 @@ public class MemoDao {
         try (SqlSession session = factory.openSession()) {
             MemoMapper mapper = session.getMapper(MemoMapper.class);
             Member findMember = mapper.findMemberByEmail(member.getEmail());
-            if (findMember != null) {
+            if (findMember == null) {
                 mapper.saveMember(member);
                 session.commit();
                 return true;
@@ -40,6 +40,7 @@ public class MemoDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 
@@ -54,18 +55,18 @@ public class MemoDao {
         return null;
     }
 
-    // 메모 보내기
+    // 쪽지 보내기
     public void sendMemo(Memo memo, long sender_id, long receiver_id) {
         try (SqlSession session = factory.openSession()) {
             MemoMapper mapper = session.getMapper(MemoMapper.class);
-            // 메모 저장
+            // 쪽지 저장
             mapper.saveMemo(memo);
 
-            // 보낸 메모 내역 저장
+            // 보낸 쪽지 내역 저장
             SendMemoRecord sendMemoRecord = new SendMemoRecord(memo.getMemo_id(), sender_id, receiver_id);
             mapper.saveSendMemoRecord(sendMemoRecord);
 
-            // 받은 메모 내역 저장
+            // 받은 쪽지 내역 저장
             ReceiveMemoRecord receiveMemoRecord = new ReceiveMemoRecord(memo.getMemo_id(), sender_id, receiver_id);
             mapper.saveReceiveMemoRecord(receiveMemoRecord);
 
@@ -75,57 +76,46 @@ public class MemoDao {
         }
     }
 
-    // 보낸 메모 전체목록(검색)
-    public List<Map<String, Object>> findSendMemos(String title) {
+    // 보낸 쪽지 전체목록
+    public List<Map<String, Object>> findSendMemos(long sender_id) {
         try (SqlSession session = factory.openSession()) {
             MemoMapper mapper = session.getMapper(MemoMapper.class);
-            return mapper.findSendMemos(title);
+            return mapper.findSendMemos(sender_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    // 보낸 메모 읽기
-    public Map<String, Object> findSendMemoById(long send_id) {
+    // 받은 쪽지 전체목록
+    public List<Map<String, Object>> findReceiveMemos(long receiver_id) {
         try (SqlSession session = factory.openSession()) {
             MemoMapper mapper = session.getMapper(MemoMapper.class);
-            return mapper.findSendMemoById(send_id);
+            return mapper.findReceiveMemos(receiver_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    // 받은 메모 전체목록(검색)
-    public List<Map<String, Object>> findReceiveMemos(String title) {
-        try (SqlSession session = factory.openSession()) {
-            MemoMapper mapper = session.getMapper(MemoMapper.class);
-            return mapper.findReceiveMemos(title);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    // 받은 메모 읽기
+    // 받은 쪽지 읽기
     public Map<String, Object> findReceiveMemoById(long receive_id) {
         try (SqlSession session = factory.openSession()) {
             MemoMapper mapper = session.getMapper(MemoMapper.class);
-            return mapper.findReceiveMemoById(receive_id);
+            // 받은 쪽지 읽기
+            Map<String, Object> receiveMemo = mapper.findReceiveMemoById(receive_id);
+
+            // 읽지 않은 쪽지이면 확인여부 'N' -> 'Y'로 변경
+            if (receiveMemo != null && receiveMemo.get("IS_READ").equals("N")) {
+                mapper.updateReceiveMemo(receive_id);
+                session.commit();
+            }
+
+            return receiveMemo;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    // 받은 메모 삭제
-    public void removeReceiveMemoRecordById(long receive_id) {
-        try (SqlSession session = factory.openSession()) {
-            MemoMapper mapper = session.getMapper(MemoMapper.class);
-            mapper.removeReceiveMemoRecordById(receive_id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
