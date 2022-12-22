@@ -86,69 +86,57 @@
     <!--  보낸 쪽지 전체목록  -->
     <select id="findSendMemos" resultType="map">
         select
-            m.memo_id,
-            m.title,
-            m.contents,
-            s.send_id,
-            s.sender_id,
-            (select name from member where member_id = s.sender_id) sender_name,
-            (select email from member where member_id = s.sender_id) sender_email,
-            s.receiver_id,
-            (select email from member where member_id = s.receiver_id) receiver_email,
-            (select name from member where member_id = s.receiver_id) receiver_name,
-            s.send_time
+            smr.send_id,
+            smr.receiver_id,
+            me.name as receiver_name,
+            me.email as receiver_email,
+            mo.title,
+            smr.send_time
         from
-            memo m join
-            send_memo_record s
-            on m.memo_id = s.memo_id
+        	send_memo_record smr
+            join memo mo on (smr.memo_id = mo.memo_id)
+            left join member me on (smr.receiver_id = me.member_id)
         where
-            s.sender_id = #{sender_id}
+            smr.sender_id = #{sender_id}
         order by
-            s.send_time desc
+            smr.send_time desc
     </select>
 
     <!--  받은 쪽지 전체목록 -->
     <select id="findReceiveMemos" resultType="map">
         select
-            m.memo_id,
-            m.title,
-            m.contents,
-            r.receive_id,
-            r.sender_id,
-            (select name from member where member_id = r.sender_id) sender_name,
-            (select email from member where member_id = r.sender_id) sender_email,
-            r.receiver_id,
-            (select email from member where member_id = r.receiver_id) receiver_email,
-            (select name from member where member_id = r.receiver_id) receiver_name,
-            r.is_read
+            rmr.receive_id,
+            rmr.sender_id,
+            me.name as sender_name,
+            me.email as sender_email,
+            mo.title,
+            rmr.is_read
         from
-            memo m join
-            receive_memo_record r
-            on m.memo_id = r.memo_id
+        	receive_memo_record rmr
+            join memo mo on (rmr.memo_id = mo.memo_id)
+            left join member me on (rmr.sender_id = me.member_id)
         where
-            receiver_id = #{receiver_id}
+            rmr.receiver_id = #{receiver_id}
         order by
-            is_read, receive_id desc
+            rmr.is_read, rmr.receive_id desc
     </select>
 
     <!--  받은 쪽지 읽기  -->
     <select id="findReceiveMemoById" resultType="map">
         select
-            m.memo_id,
-            m.title,
-            m.contents,
-            r.receive_id,
-            (select name from member where r.sender_id = member.member_id) sender_name,
-            (select email from member where r.sender_id = member.member_id) sender_email,
-            r.receiver_id,
-            (select name from member where r.receiver_id = member.member_id) receiver_name,
-            r.is_read
+            rmr.receive_id,
+            rmr.sender_id,
+            me.name as sender_name,
+            me.email as sender_email,
+            mo.title,
+            mo.contents,
+            rmr.is_read
         from
-            memo m join
-            receive_memo_record r
-            on m.memo_id = r.memo_id
+        	receive_memo_record rmr
+            join memo mo on (rmr.memo_id = mo.memo_id)
+            left join member me on (rmr.sender_id = me.member_id)
         where
-            r.receive_id = #{receive_id}
+            rmr.receive_id = #{receive_id}
     </select>
 
     <!--  받은 쪽지 확인여부 수정  -->

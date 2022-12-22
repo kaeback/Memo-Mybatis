@@ -137,7 +137,7 @@ public class MemoUI {
         } else {
             System.out.println("======== 보낸 쪽지 목록 ========");
             for (Map<String, Object> sendMemo : sendMemos) {
-                System.out.print("쪽지 번호: " + sendMemo.get("SEND_ID"));
+                System.out.print("송신 아이디: " + sendMemo.get("SEND_ID"));
                 System.out.print(", 받는 사람: " + sendMemo.get("RECEIVER_NAME") + "(" + sendMemo.get("RECEIVER_EMAIL") + ")");
                 System.out.print(", 제목: " + sendMemo.get("TITLE"));
                 System.out.println(", 보낸시간: " + sendMemo.get("SEND_TIME"));
@@ -151,7 +151,7 @@ public class MemoUI {
         if (receiveMemos != null && receiveMemos.size() > 0) {
             System.out.println("[받은 쪽지 목록]");
             for (Map<String, Object> receiveMemo : receiveMemos) {
-                System.out.print("쪽지 번호: " + receiveMemo.get("RECEIVE_ID"));
+                System.out.print("수신 아이디: " + receiveMemo.get("RECEIVE_ID"));
                 System.out.print(", 보낸 사람: " + receiveMemo.get("SENDER_NAME") + "(" + receiveMemo.get("SENDER_EMAIL") + ")");
                 System.out.print(", 제목: " + receiveMemo.get("TITLE"));
                 System.out.println(", 확인여부: " + receiveMemo.get("IS_READ"));
@@ -160,7 +160,7 @@ public class MemoUI {
             int receive_id = scanner.nextInt();
             Map<String, Object> receiveMemo = manager.getReceiveMemoById(receive_id);
             if (receiveMemo != null) {
-                System.out.print("쪽지 번호: " + receiveMemo.get("RECEIVE_ID"));
+                System.out.print("수신 아이디: " + receiveMemo.get("RECEIVE_ID"));
                 System.out.print(", 보낸 사람: " + receiveMemo.get("SENDER_NAME") + "(" + receiveMemo.get("SENDER_EMAIL") + ")");
                 System.out.print(", 제목: " + receiveMemo.get("TITLE"));
                 System.out.println(", 내용: " + receiveMemo.get("CONTENTS"));
